@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./index.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrap">
+            <div class="button">
+                    <label for="n">Nhập n : </label>
+                    <input placeholder="3" value="3" name = 'n' id = 'n'type="text"/>
+                    <label for="m">Nhập m : </label>
+                    <input placeholder="3" value="3" name = 'm' id = 'm'type="text"/>
+                    <button onClick="process()">Tiến hành</button>
+                </div>
+            
+                <div class="header">
+    
+                </div>
+            
+            <div class="grid-container">
+    
+            </div>
+    </div>
+ 
+
+
+
+        <script>
+            let grid = document.querySelector('.grid-container');
+            let header= document.querySelector('.header')
+             process=()=>{
+            let columnnn = ``;
+            let item =``;
+            let hitem = ``;
+            var arr=[];
+            let m = document.querySelector('#m').value;
+            let n = document.querySelector('#n').value;
+                for (let i=0;i<m;i++){
+                    columnnn+='auto ';
+                    arr.push([]);
+                    hitem+= `<p style="margin:0;text-align:center;justify-content:center  ">${i+1}</p>`
+                   for (let j=0;j<n;j++){
+                       let randomNum = Math.round(Math.random()*1000)
+                       item+=` <div class="grid-item">${randomNum}</div>`
+                       arr[i].push(randomNum)
+                   }
+                }  
+                // console.log(arr);
+
+                header.innerHTML=`${hitem}`;           
+                grid.innerHTML=`${item}`;
+                grid.style.gridTemplateColumns=`${columnnn}`
+                header.style.gridTemplateColumns=`${columnnn}`
+                    
+                var newArr = [...arr];
+                console.log(newArr)
+
+                let columnHeader= [...document.querySelectorAll('.header>p')]
+               columnHeader.map(head=>head.addEventListener('click',()=>{
+                   console.log(newArr)
+                let sortArr= [];
+                 arr[0].map((_,i)=>{
+                    let temp = [];
+                     arr.map(x=>{
+            
+                   temp.push (x[i])
+                //    console.log(x[i])
+                
+                })
+                sortArr.push(temp)
+                // console.log(sortArr);
+                })
+                   sortArr[(+head.innerText)-1].sort((a,b)=>a-b);
+                //    console.log(sortArr);
+                                
+                    someArr=[]
+                    // console.log(arr);
+                   sortArr[(+head.innerText)-1].map((x,i)=>{
+                        return someArr[i]=(arr.filter(num=>num.includes(x)))
+   
+                   })
+                  
+
+                   let newItem = ``
+                   for (let k in someArr){
+                    someArr[k].join('').split(',').map(ar=>{
+                   
+                   newItem+=` <div class="grid-item">${ar}</div>`;
+             
+         })
+                   }
+                
+                //   console.log(newItem)
+
+                  grid.innerHTML=`${newItem}`;
+
+                  
+               }))
+                }
+
+
+
+                /*   
+                
+                    Sai 
+                    
+                */
+        </script>
+</body>
+</html>

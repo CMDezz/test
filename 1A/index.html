@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <div class="caro">
+            <div class="button">
+                <label for="n">Nhập n : </label>
+                <input placeholder="3" value="3" name = 'n' id = 'n'type="text"/>
+                <label for="m">Nhập m : </label>
+                <input placeholder="3" value="3" name = 'm' id = 'm'type="text"/>
+                <button onClick="process()">Tiến hành</button>
+            </div>
+            <div class="wrap">
+                    <div class="controls">
+                        <div class="turn">Lượt của : </div>
+                        <div class="player">Người chơi 1 </div>
+                    </div>
+                    <div class="grid-container">
+                    </div>
+                </div>
+                <div class="won">
+                    <div class="result">
+                        Chúc mưng bạn đã chiến thắng
+                    </div>
+                    <button onClick = "reset()" class="btn-reset" >Tiếp tục</button>
+                </div>
+    </div>
+
+
+
+    <script >
+        const player = document.querySelector('.player');
+        const grid = document.querySelector('.grid-container')
+       
+        const won = document.querySelector('.won');
+        const result = document.querySelector('.result')
+        const howWin = document.querySelector('#m').value
+        const rowCol = document.querySelector('#n').value;
+
+        var itemS = [...document.querySelectorAll('.grid-item')];
+        const flag = ['X','O'];
+        let temp = 1 ;
+        let arr = [[,,],
+                   [,,],
+                   [,,]]
+
+        process=()=>{
+            let columnnn = ``;
+            let item =``;
+            var arr = []
+            let m = document.querySelector('#m').value;
+            let n = document.querySelector('#n').value;
+                for (let i=0;i<n;i++){
+                    columnnn+='auto ';
+                    arr.push([])
+                   for (let j=0;j<n;j++){
+                       item+=` <div class="grid-item"></div>`
+                       arr[i].push('')
+                   }
+                }                
+                grid.innerHTML=`${item}`
+                grid.style.gridTemplateColumns=`${columnnn}`
+                var itemS = [...document.querySelectorAll('.grid-item')];
+                itemS.map((x,J)=>x.addEventListener('click',()=>{ 
+           if(temp%2 == 1){
+               arr[Math.floor(J/n)][J-n*Math.floor(J/n)] ='X';
+               x.innerHTML=`${flag[0]}`;
+               x.style.color = `red`;
+               temp++;
+               player.innerHTML=`Người chơi 2`;
+           } 
+           else if(temp%2 == 0){
+            arr[Math.floor(J/n)][J-n*Math.floor(J/n)] = `O`;
+               x.innerHTML=`${flag[1]}`;
+               temp++;
+               player.innerHTML=`Người chơi 1`;
+           } 
+           console.log(arr)
+           checkIfWon(arr,m);   
+           }));
+           
+               
+        }
+        
+       
+
+       reset=()=>{
+           window.location.reload();
+       }
+
+       checkIfWon=(arr,m)=>{
+           //check row
+           console.log(arr)
+        
+           arr.map((row,i)=>{
+           for (let j = 0 ; j<=row.length-m;j++){
+               let arrCheck = []
+                for (let k = 0 ; k < m ; k ++ ){
+                    arrCheck.push(row[j+k])
+                }
+                if(arrCheck.filter(s=>s==='X').length===(+m))  {
+                    result.innerHTML = ` Người chơi X đã chiến thắng`;
+                                 return won.style.display = `flex`
+                };
+                if(arrCheck.filter(s=>s==='O').length===(+m)){
+                    result.innerHTML = ` Người chơi O đã chiến thắng`;
+                                 return won.style.display = `flex`
+                };
+
+           }})
+           console.log(arr)
+
+           //check column
+        //    console.log(arr)
+           arr[0].map((column,p)=>{
+            for (let j = 0 ; j<=arr[0].length-m;j++){
+               let arrCheck = [];
+                for (let k = 0 ; k <(+m) ; k ++ ){
+                    if(arr[k+j][p].length>0){
+                        arrCheck.push(arr[k+j][p])
+                    }
+                  
+                }
+                console.log(arrCheck)
+                if(arrCheck.filter(s=>s==='X').length===(+m)) {
+                    result.innerHTML = ` Người chơi X đã chiến thắng`;
+                                 return won.style.display = `flex`
+                };
+                if(arrCheck.filter(s=>s==='O').length===(+m)) {
+                    result.innerHTML = ` Người chơi O đã chiến thắng`;
+                                 return won.style.display = `flex`
+                };
+
+           }
+           })
+
+           //check \ 
+           /* 
+           
+            Thiếu check chéo
+           
+           */
+
+
+
+            
+       
+        
+
+
+
+       }
+
+     
+      
+    </script>
+
+</body>
+
+</html>
+
+
+
